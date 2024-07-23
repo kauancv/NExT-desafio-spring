@@ -1,9 +1,11 @@
 package coelho.kauan.domain.entity;
 
 import coelho.kauan.api.dto.ClienteDTO;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "clientes")
@@ -17,12 +19,21 @@ public class Cliente {
     private float renda;
     @Enumerated(EnumType.STRING)
     private EstadoCivil estado_civil;
-    // private Casas casas; //criar a relacao posteriormente
-    // private Veiculos veiculos // criar a relacao posteriormente
     private LocalDate data_criacao;
     private LocalDate data_atualizacao;
 
+    @JsonManagedReference
+    @OneToMany(mappedBy = "cliente",cascade = CascadeType.ALL)
+    private List<Casa> casas;
     public Cliente() {
+    }
+
+    public List<Casa> getCasas() {
+        return casas;
+    }
+
+    public void addCasa(Casa casa) {
+       casas.add(casa);
     }
 
     public Cliente(ClienteDTO clienteDTO) {
