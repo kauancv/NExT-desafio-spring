@@ -1,10 +1,6 @@
 package coelho.kauan.api.dto;
 
-import coelho.kauan.domain.entity.EstadoCivil;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-
-import java.time.LocalDate;
+import coelho.kauan.domain.enume.EstadoCivil;
 
 public class ClienteDTO {
     private String nome;
@@ -12,14 +8,10 @@ public class ClienteDTO {
     private int dependentes;
     private float renda;
     private EstadoCivil estado_civil;
-    // private Casas casas; //criar a relacao posteriormente
-    // private Veiculos veiculos // criar a relacao posteriormente
-
 
     public String getNome() {
         return nome;
     }
-
     public void setNome(String nome) {
         this.nome = nome;
     }

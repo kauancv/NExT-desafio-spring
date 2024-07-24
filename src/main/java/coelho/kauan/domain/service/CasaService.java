@@ -5,6 +5,7 @@ import coelho.kauan.domain.repository.CasaRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CasaService {
@@ -20,5 +21,17 @@ public class CasaService {
 
     public List<Casa> listarTodasCasas(){
         return casaRepository.findAll();
+    }
+
+    public List<Casa> buscarViaCep(String cep){
+        return casaRepository.findByCep(cep);
+    }
+
+    public void deletarCasa (Long id){
+        casaRepository.deleteById(id);
+    }
+
+    public Optional<Casa> buscarCasa(Long id){
+       return casaRepository.findById(id);
     }
 }

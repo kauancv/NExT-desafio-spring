@@ -1,11 +1,9 @@
 package coelho.kauan.domain.service;
 
-import coelho.kauan.domain.entity.Casa;
 import coelho.kauan.domain.repository.ClienteRepository;
 import coelho.kauan.domain.entity.Cliente;
 import org.springframework.stereotype.Service;
 
-import java.lang.ref.Cleaner;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,7 +14,7 @@ public class ClienteService {
     public ClienteService(ClienteRepository clienteRepository) {
         this.clienteRepository = clienteRepository;
     }
-    public void cadastrarCliente(Cliente cliente) {
+    public void save(Cliente cliente) {
         clienteRepository.save(cliente);
     }
 
@@ -28,6 +26,8 @@ public class ClienteService {
        return clienteRepository.findAll();
     }
 
-
+    public void deletarCliente(Long id) {
+        clienteRepository.deleteById(id);
+    }
 
 }
