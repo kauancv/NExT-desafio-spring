@@ -29,6 +29,18 @@ public class Cliente {
     public Cliente() {
     }
 
+    @OneToMany(mappedBy = "cliente",cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<Veiculo> veiculos;
+
+    public List<Veiculo> getVeiculos() {
+        return veiculos;
+    }
+
+    public void addVeiculo(Veiculo veiculo) {
+        this.veiculos.add(veiculo);
+    }
+
     public List<Casa> getCasas() {
         return casas;
     }

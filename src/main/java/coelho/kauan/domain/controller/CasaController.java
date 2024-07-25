@@ -5,7 +5,6 @@ import coelho.kauan.api.dto.CasaPutDTO;
 import coelho.kauan.api.dto.RespostaCasaDTO;
 import coelho.kauan.domain.entity.Casa;
 import coelho.kauan.domain.entity.Cliente;
-import coelho.kauan.domain.repository.CasaRepository;
 import coelho.kauan.domain.service.CasaService;
 import coelho.kauan.domain.service.ClienteService;
 import org.springframework.http.HttpStatus;
@@ -34,7 +33,7 @@ public class CasaController {
         if (clienteBuscado.isPresent()){
             Casa casa = new Casa(casaDTO);
             casa.setCliente(clienteBuscado.get());
-            RespostaCasaDTO respostaCasaDTO = new RespostaCasaDTO(casa);
+            // RespostaCasaDTO respostaCasaDTO = new RespostaCasaDTO(casa);
             clienteBuscado.get().addCasa(casa);
             casaService.save(casa);
             return ResponseEntity.ok(casa);
@@ -63,7 +62,7 @@ public class CasaController {
      }
 
      @PutMapping("/{id}")
-    public ResponseEntity atualizarCasa (@PathVariable Long id,@RequestBody CasaPutDTO casaPutDTO){
+    public ResponseEntity<?> atualizarCasa (@PathVariable Long id,@RequestBody CasaPutDTO casaPutDTO){
          System.out.println(casaPutDTO.toString());
         Optional<Casa> casa = casaService.buscarCasa(id);
         Optional<Cliente> cliente = clienteService.buscarClientePorId(casaPutDTO.getId_cliente());
