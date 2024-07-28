@@ -33,6 +33,17 @@ public class Cliente {
     @JsonManagedReference
     private List<Veiculo> veiculos;
 
+    @OneToMany(mappedBy = "cliente",cascade = CascadeType.ALL)
+    private List<Seguro> seguros;
+
+    public void addSeguros(Seguro s) {
+        this.seguros.add(s);
+    }
+
+    public void setSeguros(List<Seguro> seguros) {
+        this.seguros = seguros;
+    }
+
     public List<Veiculo> getVeiculos() {
         return veiculos;
     }

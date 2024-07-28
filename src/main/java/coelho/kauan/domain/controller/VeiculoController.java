@@ -43,6 +43,7 @@ public class VeiculoController {
          }else {
              return ResponseEntity.badRequest().body("erro ao associar um veiculo ao um cliente/dono");
          }
+         
     }
 
     @DeleteMapping("/{id}")
