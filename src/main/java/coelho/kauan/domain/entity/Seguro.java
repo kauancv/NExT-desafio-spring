@@ -49,7 +49,7 @@ public class Seguro {
         if (cliente.getIdade() < 30){
             pontuacao_base -= 2;
         }
-        if (cliente.getIdade() > 30 || cliente.getIdade() < 40){
+        if (cliente.getIdade() > 30 && cliente.getIdade() < 40){
             pontuacao_base -= 1;}
 
         return pontuacao_base;
@@ -79,7 +79,7 @@ public class Seguro {
             setAnalise("Regular");
         }
         else if (pontuacao_risco >= 3){
-            setAnalise("Responsvel");
+            setAnalise("Responsavel");
         }
     }
 
@@ -123,7 +123,7 @@ public class Seguro {
         this.analise = analise;
     }
 
-    public int getPontuacao_risco(List<Boolean> lista, Cliente cliente, Veiculo veiculo) {
+    public int getPontuacao_risco() {
         return pontuacao_risco;
     }
 

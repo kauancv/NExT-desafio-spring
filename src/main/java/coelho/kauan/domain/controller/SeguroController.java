@@ -51,6 +51,11 @@ public class SeguroController {
                 seguro.setPontuacao_risco(pontuacao_risco);
                 seguro.analise_veiculo();
                 seguro.setObservacao("Testando Seguro");
+                System.out.println();
+                System.out.println();
+                System.out.println(pontuacao_risco);
+                System.out.println();
+                System.out.println();
             }
             LocalDate dataAtual = LocalDate.now();
             seguro.setData_criacao(dataAtual);

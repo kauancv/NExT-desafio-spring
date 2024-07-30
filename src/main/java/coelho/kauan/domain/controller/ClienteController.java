@@ -20,9 +20,11 @@ public class ClienteController {
     }
 
     @PostMapping
-    public void cadastroCliente (@RequestBody ClienteDTO clienteDTO){
+    public ResponseEntity<?> cadastroCliente (@RequestBody ClienteDTO clienteDTO){
         Cliente cliente = new Cliente(clienteDTO);
         clienteService.save(cliente);
+        return ResponseEntity.ok().body(cliente);
+
     }
 
     @GetMapping

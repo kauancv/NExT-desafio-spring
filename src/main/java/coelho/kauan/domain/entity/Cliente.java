@@ -2,6 +2,7 @@ package coelho.kauan.domain.entity;
 
 import coelho.kauan.api.dto.ClienteDTO;
 import coelho.kauan.domain.enume.EstadoCivil;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
@@ -36,6 +37,7 @@ public class Cliente {
     @OneToMany(mappedBy = "cliente",cascade = CascadeType.ALL)
     private List<Seguro> seguros;
 
+    @JsonIgnore
     public int get_quantidades_veiculos (){
         return veiculos.size();
     }
