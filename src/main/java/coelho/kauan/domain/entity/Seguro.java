@@ -1,13 +1,13 @@
 package coelho.kauan.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
-import java.security.PrivateKey;
 import java.time.LocalDate;
 import java.util.List;
 
 @Entity
-//@Table(name = "seguros")
+@Table(name = "seguros")
 public class Seguro {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,12 +21,67 @@ public class Seguro {
 
     @ManyToOne
     @JoinColumn(name = "id_cliente")
+    @JsonIgnore
     private Cliente cliente;
 
     public Seguro() {
     }
 
-    public void seguro_automovel (List<Boolean> respostas,)
+    public int getPontuacaoBase(List<Boolean> respostas) {
+        int pontuacao_base = 0;
+        for (Boolean r : respostas) {
+            if (r){
+                pontuacao_base++;
+            }
+        }
+        return pontuacao_base;
+    }
+
+    public int calculo_pontuacao_risco (List<Boolean> respostas,Cliente cliente,Veiculo veiculo){
+            int pontuacao_base = getPontuacaoBase(respostas);
+            pontuacao_base = regras_idade(cliente,pontuacao_base);
+            pontuacao_base = regra_renda(cliente,pontuacao_base);
+            pontuacao_base = regras_ano_veiculo(veiculo,pontuacao_base);
+            return pontuacao_base;
+    }
+
+    public int regras_idade (Cliente cliente,int pontuacao_base){
+        if (cliente.getIdade() < 30){
+            pontuacao_base -= 2;
+        }
+        if (cliente.getIdade() > 30 || cliente.getIdade() < 40){
+            pontuacao_base -= 1;}
+
+        return pontuacao_base;
+    }
+
+    public int regra_renda (Cliente cliente,int pontuacao_base){
+        if (cliente.getRenda() > 200000){
+            pontuacao_base -= 1;
+        }
+        return pontuacao_base;
+    }
+
+    public int regras_ano_veiculo (Veiculo veiculo,int pontuacao_base){
+        LocalDate data_atual = LocalDate.now();
+        LocalDate data_minima = data_atual.minusYears(5);
+        if (veiculo.getAno_fabricacao() >= data_minima.getYear() || veiculo.getAno_fabricacao() <= data_atual.getYear()){
+            pontuacao_base += 1;
+        }
+        return pontuacao_base;
+    }
+
+    public void analise_veiculo (){
+        if (pontuacao_risco == 0){
+            setAnalise("Economico");
+        }
+        else if (pontuacao_risco >= 1 && pontuacao_risco <= 2){
+            setAnalise("Regular");
+        }
+        else if (pontuacao_risco >= 3){
+            setAnalise("Responsvel");
+        }
+    }
 
     public Cliente getCliente() {
         return cliente;
@@ -68,7 +123,7 @@ public class Seguro {
         this.analise = analise;
     }
 
-    public int getPontuacao_risco() {
+    public int getPontuacao_risco(List<Boolean> lista, Cliente cliente, Veiculo veiculo) {
         return pontuacao_risco;
     }
 

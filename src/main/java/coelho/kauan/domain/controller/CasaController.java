@@ -2,7 +2,6 @@ package coelho.kauan.domain.controller;
 
 import coelho.kauan.api.dto.CasaDTO;
 import coelho.kauan.api.dto.CasaPutDTO;
-import coelho.kauan.api.dto.RespostaCasaDTO;
 import coelho.kauan.domain.entity.Casa;
 import coelho.kauan.domain.entity.Cliente;
 import coelho.kauan.domain.service.CasaService;
@@ -10,7 +9,6 @@ import coelho.kauan.domain.service.ClienteService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.Optional;
 

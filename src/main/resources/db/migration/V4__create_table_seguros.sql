@@ -3,7 +3,7 @@ CREATE TABLE seguros (
     tipo VARCHAR(255) NOT NULL ,
     pontuacao_risco INT NOT NULL ,
     analise VARCHAR(255) NOT NULL ,
-    observao VARCHAR(255) NOT NULL ,
+    observacao VARCHAR(255) NOT NULL ,
     data_criacao DATE NOT NULL ,
     data_validade DATE NOT NULL ,
     id_cliente BIGINT NOT NULL,
