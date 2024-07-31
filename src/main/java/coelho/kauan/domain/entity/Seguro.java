@@ -1,5 +1,7 @@
 package coelho.kauan.domain.entity;
 
+import coelho.kauan.domain.enume.EstadoCivil;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
@@ -9,6 +11,7 @@ import java.util.List;
 @Entity
 @Table(name = "seguros")
 public class Seguro {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -21,6 +24,7 @@ public class Seguro {
 
     @ManyToOne
     @JoinColumn(name = "id_cliente")
+    @JsonBackReference
     @JsonIgnore
     private Cliente cliente;
 
@@ -37,7 +41,7 @@ public class Seguro {
         return pontuacao_base;
     }
 
-    public int calculo_pontuacao_risco (List<Boolean> respostas,Cliente cliente,Veiculo veiculo){
+    public int calculo_pontuacao_risco_veiculo(List<Boolean> respostas, Cliente cliente, Veiculo veiculo){
             int pontuacao_base = getPontuacaoBase(respostas);
             pontuacao_base = regras_idade(cliente,pontuacao_base);
             pontuacao_base = regra_renda(cliente,pontuacao_base);
@@ -71,7 +75,7 @@ public class Seguro {
         return pontuacao_base;
     }
 
-    public void analise_veiculo (){
+    public void analise_seguro (){
         if (pontuacao_risco == 0){
             setAnalise("Economico");
         }
@@ -81,6 +85,45 @@ public class Seguro {
         else if (pontuacao_risco >= 3){
             setAnalise("Responsavel");
         }
+    }
+
+    public int pontuacao_vida (List<Boolean> respostas,Cliente cliente){
+        int pontuacao_base = getPontuacaoBase(respostas);
+        pontuacao_base = regras_idade(cliente,pontuacao_base);
+        pontuacao_base = regra_renda(cliente,pontuacao_base);
+        pontuacao_base = regra_dependentes(cliente,pontuacao_base);
+        pontuacao_base = regra_estado_civil(cliente,pontuacao_base);
+        return pontuacao_base;
+    }
+
+    public int pontuacao_invalidez(List<Boolean> resspostas, Cliente cliente) {
+        int pontuacao_base = getPontuacaoBase(resspostas);
+        pontuacao_base = regras_idade(cliente,pontuacao_base);
+        pontuacao_base = regra_renda(cliente,pontuacao_base);
+        pontuacao_base = regra_dependentes(cliente,pontuacao_base);
+        pontuacao_base = regra_estado_invalidez(cliente,pontuacao_base);
+        return pontuacao_base;
+    }
+
+    public int regra_dependentes (Cliente cliente,int pontuacao_base){
+        if (cliente.getDependentes() > 0){
+            pontuacao_base+=1;
+        }
+        return pontuacao_base;
+    }
+
+    public int regra_estado_civil (Cliente cliente,int pontuacao_base){
+        if (cliente.getEstado_civil().equals(EstadoCivil.CASADO)){
+            pontuacao_base+=1;
+        }
+        return pontuacao_base;
+    }
+
+    public int regra_estado_invalidez (Cliente cliente,int pontuacao_base){
+        if (cliente.getEstado_civil().equals(EstadoCivil.CASADO)){
+            pontuacao_base-=1;
+        }
+        return pontuacao_base;
     }
 
     public Cliente getCliente() {
@@ -145,5 +188,22 @@ public class Seguro {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+
+    public int pontuacao_moradia(List<Boolean> questoesRiscos, Cliente cliente,Casa casa) {
+         int pontuacao_base = getPontuacaoBase(questoesRiscos);
+         pontuacao_base = regras_idade(cliente,pontuacao_base);
+         pontuacao_base = regra_renda(cliente,pontuacao_base);
+         pontuacao_base = regra_hipotecada(cliente,casa,pontuacao_base);
+         return pontuacao_base;
+    }
+
+    public int regra_hipotecada (Cliente cliente,Casa casa, int pontuacao_base) {
+        if (casa.getStatus().equalsIgnoreCase("HIPOTECADA")){
+            pontuacao_base+=1;
+        }
+
+        return pontuacao_base;
     }
 }

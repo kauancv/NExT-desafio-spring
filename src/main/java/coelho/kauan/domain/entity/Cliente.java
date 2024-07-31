@@ -34,12 +34,18 @@ public class Cliente {
     @JsonManagedReference
     private List<Veiculo> veiculos;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "cliente",cascade = CascadeType.ALL)
     private List<Seguro> seguros;
 
     @JsonIgnore
     public int get_quantidades_veiculos (){
         return veiculos.size();
+    }
+
+    @JsonIgnore
+    public int getQuantidade_moradias (){
+        return casas.size();
     }
 
     public void addSeguros(Seguro s) {

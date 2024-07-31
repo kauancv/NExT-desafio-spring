@@ -67,4 +67,6 @@ public class Casa {
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
     }
+
+
 }
